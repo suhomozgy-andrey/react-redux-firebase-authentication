@@ -17,13 +17,15 @@ const withAuthentication = Component => {
       return <Component {...this.props} />;
     }
   }
-
+  const mapStateToProps = state => ({
+    authUser: state.sessionState.authUser
+  });
   const mapDispatchToProps = dispatch => ({
     onSetAuthUser: authUser => dispatch({ type: "AUTH_USER_SET", authUser })
   });
 
   return connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(WithAuthentication);
 };

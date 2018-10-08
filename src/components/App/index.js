@@ -17,46 +17,31 @@ import "./index.css";
 const { Header, Content, Footer, Sider } = Layout;
 
 class App extends Component {
-  state = {
-    collapsed: false
-  };
-
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  };
   render() {
+    const { authUser } = this.props;
     return (
       <Router>
         <Layout className="layout">
-          <Sider
-            breakpoint="lg"
-            collapsedWidth="0"
-            onBreakpoint={broken => {
-              console.log(broken);
-            }}
-            onCollapse={(collapsed, type) => {
-              console.log(collapsed, type);
-            }}
-          >
-            <div className="logo" />
-            <Navigation />
-          </Sider>
+          {authUser && (
+            <Sider breakpoint="lg" collapsedWidth="0">
+              <div className="logo" />
+              <Navigation />
+            </Sider>
+          )}
+
           <Layout>
-            <Header style={{ background: "#fff", padding: 0 }} />
-            <Content style={{ margin: "24px 16px 0" }}>
-              <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
+            <Content>
+              <div className="content_wrapper">
                 <Route
                   exact
                   path={routes.LANDING}
                   component={() => <LandingPage />}
                 />
-                <Route
+                {/*<Route
                   exact
                   path={routes.SIGN_UP}
                   component={() => <SignUpPage />}
-                />
+                />*/}
                 <Route
                   exact
                   path={routes.SIGN_IN}
@@ -79,9 +64,6 @@ class App extends Component {
                 />
               </div>
             </Content>
-            <Footer style={{ textAlign: "center" }}>
-              Ant Design ©2018 Created by Ant UED
-            </Footer>
           </Layout>
         </Layout>
       </Router>
