@@ -5,6 +5,11 @@
 .ant-layout-content {
   position: relative;
 }
+
+.ant-layout-sider-zero-width-trigger{
+  z-index: 5;
+}
+
 .content_wrapper{
   position: absolute;
   width: 100%;
