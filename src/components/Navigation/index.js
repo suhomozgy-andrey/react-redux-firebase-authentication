@@ -29,6 +29,12 @@ const NavigationAuth = ({ pathname }) => (
         <span className="nav-text">Landing</span>
       </Link>
     </Menu.Item>
+    <Menu.Item key="/films">
+      <Link to={routes.FILMS}>
+        <Icon type="user" />
+        <span className="nav-text">Films</span>
+      </Link>
+    </Menu.Item>
     <Menu.Item key="/home">
       <Link to={routes.HOME}>
         <Icon type="video-camera" />
@@ -53,6 +59,12 @@ const NavigationNonAuth = ({ pathname }) => (
       <Link to={routes.LANDING}>
         <Icon type="user" />
         <span className="nav-text">Landing</span>
+      </Link>
+    </Menu.Item>
+    <Menu.Item key="/films">
+      <Link to={routes.FILMS}>
+        <Icon type="user" />
+        <span className="nav-text">Films</span>
       </Link>
     </Menu.Item>
     <Menu.Item key="/sign_in">

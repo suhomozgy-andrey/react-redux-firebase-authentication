@@ -9,6 +9,9 @@ import SignInPage from "../SignIn";
 import PasswordForgetPage from "../PasswordForget";
 import HomePage from "../Home";
 import AccountPage from "../Account";
+import Films from "../Films";
+import Film from "../Film";
+import FilmNew from "../FilmNew";
 import withAuthentication from "../Session/withAuthentication";
 import * as routes from "../../constants/routes";
 
@@ -57,6 +60,13 @@ class App extends Component {
                   path={routes.HOME}
                   component={() => <HomePage />}
                 />
+                <Route exact path={routes.FILMS} component={() => <Films />} />
+                <Route
+                  exact
+                  path={routes.FILM_NEW}
+                  component={() => <FilmNew />}
+                />
+
                 <Route
                   exact
                   path={routes.ACCOUNT}
