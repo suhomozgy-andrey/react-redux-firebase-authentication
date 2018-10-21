@@ -12,10 +12,18 @@ export const onceGetUsers = () => db.ref("users").once("value");
 
 // Other db APIs ...
 
-export const doCreateFilm = (id, title, kinopoiskLink) =>
+export const doCreateFilm = (id, title, kinopoiskLink = {}, rate = "") =>
   db.ref(`films/${id}`).set({
     title,
-    kinopoiskLink
+    kinopoiskLink,
+    rate
+  });
+
+export const doUpdateFilm = (id, title, kinopoiskLink = {}, rate = "") =>
+  db.ref(`films/${id}`).set({
+    title,
+    kinopoiskLink,
+    rate
   });
 
 export const doRemoveFilm = id => db.ref(`films/${id}`).remove();

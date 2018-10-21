@@ -2,7 +2,7 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { compose } from "recompose";
 import { connect } from "react-redux";
-import { Menu, Icon, Button } from "antd";
+import { Menu, Icon } from "antd";
 import SignOutButton from "../SignOut";
 import * as routes from "../../constants/routes";
 

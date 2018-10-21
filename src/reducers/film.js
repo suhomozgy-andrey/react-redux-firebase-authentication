@@ -25,6 +25,9 @@ function filmReducer(state = INITIAL_STATE, action) {
     case "FILM_SET": {
       return applySetFilm(state, action);
     }
+    case "FILM_CLEAR": {
+      return applySetFilm(state, action);
+    }
     case "FILM_REMOVE": {
       const films = { ...state.films };
       delete films[action.key];

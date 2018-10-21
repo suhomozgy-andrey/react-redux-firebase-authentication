@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "recompose";
-
-import withAuthorization from "../Session/withAuthorization";
+import { Link } from "react-router-dom";
 import { db } from "../../firebase";
 import { FilmNewLink } from "../FilmNew";
+import { FilmUpdateLink } from "../FilmEdit";
 
 class Films extends Component {
   componentDidMount() {
@@ -29,12 +29,17 @@ class Films extends Component {
           <div>
             {Object.keys(films).map(key => (
               <div key={key}>
-                {films[key].title} {films[key].kinopoiskLink}
+                <Link to={`/films/${key}`}>
+                  {films[key].title} {films[key].kinopoiskLink}
+                </Link>
+                <b>Rate: </b> {films[key].rate || "Not Set"}
                 {authUser && (
                   <button type="button" onClick={() => this.handleRemove(key)}>
                     &times;
                   </button>
                 )}
+                {authUser && <FilmUpdateLink id={key} />}
+                <br />
               </div>
             ))}
           </div>

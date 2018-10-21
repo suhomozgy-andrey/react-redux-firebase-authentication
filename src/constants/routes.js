@@ -7,3 +7,4 @@ export const ACCOUNT = "/account";
 export const FILMS = "/films";
 export const FILM = "/films/:id";
 export const FILM_NEW = "/films/new";
+export const FILM_EDIT = "/films/:id/edit";

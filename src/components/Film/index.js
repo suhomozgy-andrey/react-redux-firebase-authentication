@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "recompose";
 
@@ -14,9 +14,13 @@ class Film extends Component {
         params: { id }
       }
     } = this.props;
-    console.log(this.props);
-    // const id = 2;
     db.onceGetFilm(id).then(snapshot => onSetFilm(snapshot.val()));
+  }
+
+  componentWillUnmount() {
+    const { onClearFilm } = this.props;
+
+    onClearFilm();
   }
 
   render() {
@@ -35,7 +39,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetFilm: film => dispatch({ type: "FILM_SET", film })
+  onSetFilm: film => dispatch({ type: "FILM_SET", film }),
+  onClearFilm: film => dispatch({ type: "FILM_CLEAR", film: {} })
 });
 
 export default compose(

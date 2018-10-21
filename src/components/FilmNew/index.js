@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { compose } from "recompose";
-import { auth, db } from "../../firebase";
+import { db } from "../../firebase";
 import { db as database } from "../../firebase/firebase";
 import * as routes from "../../constants/routes";
 import withAuthorization from "../Session/withAuthorization";

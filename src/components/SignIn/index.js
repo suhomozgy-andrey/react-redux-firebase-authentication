@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Form, Icon, Input, Button, Checkbox } from "antd";
+import { Form, Icon, Input, Button } from "antd";
 import { SignUpLink } from "../SignUp";
 import { PasswordForgetLink } from "../PasswordForget";
 import { auth } from "../../firebase";
@@ -34,24 +34,6 @@ class SignInForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  // onSubmit = event => {
-  //   const { email, password } = this.state;
-
-  //   const { history } = this.props;
-
-  //   auth
-  //     .doSignInWithEmailAndPassword(email, password)
-  //     .then(() => {
-  //       this.setState(() => ({ ...INITIAL_STATE }));
-  //       history.push(routes.HOME);
-  //     })
-  //     .catch(error => {
-  //       this.setState(updateByPropertyName("error", error));
-  //     });
-
-  //   event.preventDefault();
-  // };
-
   handleSubmit = event => {
     const { history } = this.props;
     event.preventDefault();
@@ -72,9 +54,9 @@ class SignInForm extends Component {
   };
 
   render() {
-    const { email, password, error } = this.state;
+    const { error } = this.state;
 
-    const isInvalid = password === "" || email === "";
+    // const isInvalid = password === "" || email === "";
 
     const { getFieldDecorator } = this.props.form;
 

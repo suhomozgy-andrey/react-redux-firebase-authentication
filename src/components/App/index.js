@@ -12,6 +12,7 @@ import AccountPage from "../Account";
 import Films from "../Films";
 import Film from "../Film";
 import FilmNew from "../FilmNew";
+import FilmEdit from "../FilmEdit";
 import withAuthentication from "../Session/withAuthentication";
 import * as routes from "../../constants/routes";
 
@@ -66,6 +67,9 @@ class App extends Component {
                   path={routes.FILM_NEW}
                   component={() => <FilmNew />}
                 />
+                <Route path={routes.FILM} component={() => <Film />} />
+
+                <Route path={routes.FILM_EDIT} component={() => <FilmEdit />} />
 
                 <Route
                   exact
