@@ -79,25 +79,22 @@ class FilmUpdateForm extends Component {
     const isInvalid = title === "";
 
     const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 14 }
-    };
+    const formItemLayout = {};
     return (
       <Form onSubmit={this.onSubmit} className="film-edit-form">
-        <FormItem>
+        <FormItem label="Title">
           {getFieldDecorator("title", {
             rules: [{ required: true, message: "Please input film name!" }],
             initialValue: title
           })(<Input placeholder="Film title" />)}
         </FormItem>
-        <FormItem>
+        <FormItem label="Kinipoisk Link">
           {getFieldDecorator("kinopoiskLink", {
             rules: [{ required: false }],
             initialValue: kinopoiskLink
           })(<Input placeholder="Film kinopoiskLink" />)}
         </FormItem>
-        <FormItem {...formItemLayout} label="Rate">
+        <FormItem {...formItemLayout} label="Rate This Film">
           {getFieldDecorator("rate", {
             initialValue: rate
           })(<Rate />)}
