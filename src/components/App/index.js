@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Layout, Menu, Icon } from "antd";
+import { Layout } from "antd";
 import "antd/dist/antd.css";
 import Navigation from "../Navigation";
 import LandingPage from "../Landing";
-import SignUpPage from "../SignUp";
+// import SignUpPage from "../SignUp";
 import SignInPage from "../SignIn";
 import PasswordForgetPage from "../PasswordForget";
 import HomePage from "../Home";
@@ -18,7 +18,7 @@ import * as routes from "../../constants/routes";
 
 import "./index.css";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 class App extends Component {
   render() {

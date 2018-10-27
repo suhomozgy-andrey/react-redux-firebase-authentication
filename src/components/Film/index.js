@@ -1,26 +1,24 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { compose } from "recompose";
-
-import withAuthorization from "../Session/withAuthorization";
-import { db } from "../../firebase";
+import * as actions from "../../action";
 
 class Film extends Component {
   componentDidMount() {
     const {
-      onSetFilm,
+      actions,
       match: {
         params: { id }
       }
     } = this.props;
-    db.onceGetFilm(id).then(snapshot => onSetFilm(snapshot.val()));
+    actions.setFilmRequest(id);
   }
 
   componentWillUnmount() {
-    const { onClearFilm } = this.props;
-
-    onClearFilm();
+    const { actions } = this.props;
+    actions.clearFilm();
   }
 
   render() {
@@ -39,8 +37,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetFilm: film => dispatch({ type: "FILM_SET", film }),
-  onClearFilm: film => dispatch({ type: "FILM_CLEAR", film: {} })
+  actions: bindActionCreators(actions, dispatch)
 });
 
 export default compose(

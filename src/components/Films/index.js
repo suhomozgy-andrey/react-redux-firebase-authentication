@@ -1,52 +1,40 @@
-import React, { Component } from "react";
+import React, { lazy, Suspense, Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { compose } from "recompose";
-import { Link } from "react-router-dom";
-import { db } from "../../firebase";
 import { FilmNewLink } from "../FilmNew";
-import { FilmUpdateLink } from "../FilmEdit";
+import { Spin } from "antd";
+import * as actions from "../../action";
+
+const FilmRow = lazy(() => import("./shared/FilmRow"));
 
 class Films extends Component {
   componentDidMount() {
-    const { onSetFilms } = this.props;
-    db.onceGetFilms().then(snapshot => onSetFilms(snapshot.val()));
-  }
-
-  handleRemove(key) {
-    const { onRemoveFilm } = this.props;
-    db.doRemoveFilm(key).then(res => {
-      onRemoveFilm(key);
-    });
+    const { actions } = this.props;
+    actions.setFilmsRequest();
   }
 
   render() {
-    const { films, authUser } = this.props;
-    console.log(films);
+    const { films, authUser, loading } = this.props;
     return (
       <div>
-        <h1>Films</h1>
-        {!!films && Object.keys(films).length > 0 ? (
-          <div>
-            {Object.keys(films).map(key => (
-              <div key={key}>
-                <Link to={`/films/${key}`}>
-                  {films[key].title} {films[key].kinopoiskLink}
-                </Link>
-                <b>Rate: </b> {films[key].rate || "Not Set"}
-                {authUser && (
-                  <button type="button" onClick={() => this.handleRemove(key)}>
-                    &times;
-                  </button>
-                )}
-                {authUser && <FilmUpdateLink id={key} />}
-                <br />
-              </div>
-            ))}
-          </div>
-        ) : (
-          "No films added"
-        )}
-        {authUser && <FilmNewLink />}
+        <h1>Films {loading && <Spin size="small" />}</h1>
+        {!loading &&
+          !!films &&
+          Object.keys(films).length > 0 && (
+            <div>
+              {Object.keys(films).map(key => (
+                <div key={key}>
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <FilmRow id={key} film={films[key]} />
+                  </Suspense>
+                </div>
+              ))}
+            </div>
+          )}
+        {!loading && !!films && Object.keys(films).length === 0 && "No Films"}
+
+        {!loading && authUser && <FilmNewLink />}
       </div>
     );
   }
@@ -54,12 +42,12 @@ class Films extends Component {
 
 const mapStateToProps = state => ({
   films: state.filmState.films,
+  loading: state.filmState.loading,
   authUser: state.sessionState.authUser
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetFilms: films => dispatch({ type: "FILMS_SET", films }),
-  onRemoveFilm: key => dispatch({ type: "FILM_REMOVE", key })
+  actions: bindActionCreators(actions, dispatch)
 });
 
 export default compose(

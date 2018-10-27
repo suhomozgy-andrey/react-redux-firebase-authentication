@@ -1,15 +1,18 @@
+import * as types from "../actionTypes";
+
 const INITIAL_STATE = {
-  films: {}
+  films: {},
+  loading: false
 };
 
 const applySetFilms = (state, action) => ({
   ...state,
-  films: action.films
+  films: action.payload.data
 });
 
 const applySetFilm = (state, action) => ({
   ...state,
-  film: action.film
+  film: action.payload.data
 });
 
 const applyRemoveFilm = (state, films) => ({
@@ -19,18 +22,55 @@ const applyRemoveFilm = (state, films) => ({
 
 function filmReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "FILMS_SET": {
+    case types.FILMS_SET: {
       return applySetFilms(state, action);
     }
-    case "FILM_SET": {
+    case types.START_FILMS_SET: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case types.STOP_FILMS_SET: {
+      return {
+        ...state,
+        loading: false
+      };
+    }
+    case types.START_FILM_SET: {
+      return {
+        ...state,
+        filmLoading: true
+      };
+    }
+    case types.STOP_FILM_SET: {
+      return {
+        ...state,
+        filmLoading: false
+      };
+    }
+    case types.FILM_CREATE_ERROR: {
+      return {
+        ...state,
+        filmCreateError: action.payload.data
+      };
+    }
+    case types.FILM_UPDATE_ERROR: {
+      return {
+        ...state,
+        filmUpdateError: action.payload.data
+      };
+    }
+    case types.FILM_SET: {
       return applySetFilm(state, action);
     }
-    case "FILM_CLEAR": {
+    case types.FILM_CLEAR: {
       return applySetFilm(state, action);
     }
-    case "FILM_REMOVE": {
+
+    case types.FILM_REMOVE: {
       const films = { ...state.films };
-      delete films[action.key];
+      delete films[action.payload.data];
       return applyRemoveFilm(state, films);
     }
     default:
