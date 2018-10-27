@@ -1,12 +1,13 @@
-import React, { lazy, Suspense, Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { compose } from "recompose";
-import { FilmNewLink } from "../FilmNew";
-import { Spin } from "antd";
-import * as actions from "../../action";
+import React, { lazy, Suspense, Component } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
+import { compose } from 'recompose';
+import { FilmNewLink } from '../FilmNew';
+import { Spin } from 'antd';
+import * as actions from '../../action';
 
-const FilmRow = lazy(() => import("./shared/FilmRow"));
+const FilmRow = lazy(() => import('./shared/FilmRow'));
 
 class Films extends Component {
   componentDidMount() {
@@ -17,42 +18,57 @@ class Films extends Component {
   render() {
     const { films, authUser, loading } = this.props;
     return (
-      <div>
-        <h1>Films {loading && <Spin size="small" />}</h1>
+      <StyledFilmsWrapper>
+        {loading && <Spin size="small" />}
         {!loading &&
           !!films &&
           Object.keys(films).length > 0 && (
-            <div>
-              {Object.keys(films).map(key => (
-                <div key={key}>
+            <StyledFilms>
+              {Object.keys(films).map((key) => (
+                <React.Fragment key={key}>
                   <Suspense fallback={<div>Loading...</div>}>
                     <FilmRow id={key} film={films[key]} />
                   </Suspense>
-                </div>
+                </React.Fragment>
               ))}
-            </div>
+            </StyledFilms>
           )}
-        {!loading && !!films && Object.keys(films).length === 0 && "No Films"}
+        {!loading && !!films && Object.keys(films).length === 0 && 'No Films'}
 
         {!loading && authUser && <FilmNewLink />}
-      </div>
+      </StyledFilmsWrapper>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const StyledFilmsWrapper = styled.div`
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledFilms = styled.div`
+  flex: 1;
+  display: grid;
+  justify-items: stretch;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-auto-rows: minmax(150px, auto);
+`;
+
+const mapStateToProps = (state) => ({
   films: state.filmState.films,
   loading: state.filmState.loading,
-  authUser: state.sessionState.authUser
+  authUser: state.sessionState.authUser,
 });
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions, dispatch),
 });
 
 export default compose(
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )
+    mapDispatchToProps,
+  ),
 )(Films);

@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { compose } from "recompose";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Form, Input, Button, Rate } from "antd";
-import * as routes from "../../constants/routes";
-import withAuthorization from "../Session/withAuthorization";
-import * as actions from "../../action";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Form, Input, Button, Rate } from 'antd';
+import * as routes from '../../constants/routes';
+import withAuthorization from '../Session/withAuthorization';
+import * as actions from '../../action';
 
 const FormItem = Form.Item;
 
 const INITIAL_STATE = {
-  title: "",
-  kinopoiskLink: ""
+  title: '',
+  kinopoiskLink: '',
 };
 
 class FilmNewFormPage extends Component {
@@ -21,18 +21,15 @@ class FilmNewFormPage extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  onSubmit = async event => {
+  onSubmit = async (event) => {
     event.preventDefault();
     const { history, actions, form } = this.props;
 
     form.validateFields(async (err, values) => {
       if (!err) {
-        const result = await actions.filmCreateRequest([
-          values.title,
-          values.kinopoiskLink
-        ]);
+        const result = await actions.filmCreateRequest([values.title, values.kinopoiskLink, values.rate]);
 
-        if (result && result.status === "ok") {
+        if (result && result.status === 'ok') {
           this.setState(() => ({ ...INITIAL_STATE }));
           history.push(routes.FILMS);
         }
@@ -45,7 +42,7 @@ class FilmNewFormPage extends Component {
 
     const {
       error,
-      form: { getFieldDecorator }
+      form: { getFieldDecorator },
     } = this.props;
     const formItemLayout = {};
     return (
@@ -53,29 +50,25 @@ class FilmNewFormPage extends Component {
         <h1>Add new film</h1>
         <Form onSubmit={this.onSubmit} className="film-edit-form">
           <FormItem label="Title">
-            {getFieldDecorator("title", {
-              rules: [{ required: true, message: "Please input film name!" }],
-              initialValue: title
+            {getFieldDecorator('title', {
+              rules: [{ required: true, message: 'Please input film name!' }],
+              initialValue: title,
             })(<Input placeholder="Film title" />)}
           </FormItem>
           <FormItem label="Kinopoisk Link">
-            {getFieldDecorator("kinopoiskLink", {
+            {getFieldDecorator('kinopoiskLink', {
               rules: [{ required: false }],
-              initialValue: kinopoiskLink
+              initialValue: kinopoiskLink,
             })(<Input placeholder="Film kinopoiskLink" />)}
           </FormItem>
           <FormItem {...formItemLayout} label="Rate This Film">
-            {getFieldDecorator("rate", {
-              initialValue: rate
+            {getFieldDecorator('rate', {
+              initialValue: rate,
             })(<Rate />)}
           </FormItem>
 
           <FormItem>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >
+            <Button type="primary" htmlType="submit" className="login-form-button">
               Create
             </Button>
             <br />
@@ -93,14 +86,14 @@ const FilmNewLink = () => (
   </p>
 );
 
-const authCondition = authUser => !!authUser;
+const authCondition = (authUser) => !!authUser;
 
-const mapStateToProps = state => ({
-  error: state.filmState.filmCreateError
+const mapStateToProps = (state) => ({
+  error: state.filmState.filmCreateError,
 });
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions, dispatch),
 });
 
 export default compose(
@@ -109,8 +102,8 @@ export default compose(
   withAuthorization(authCondition),
   connect(
     mapStateToProps,
-    mapDispatchToProps
-  )
+    mapDispatchToProps,
+  ),
 )(FilmNewFormPage);
 
 export { FilmNewLink };
